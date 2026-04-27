@@ -1,7 +1,7 @@
 HollaAtYaBoyz "Enter an integer:" fr
 letta n = toNum(CheckIt()) fr
 dat (mod(n, 2) == 0) xXx
-    HollaAtYaBoyz "Even" fr
+    HollaAtYaBoyz "Even" no cap
 XxX ELSE xXx
     HollaAtYaBoyz "Odd" fr
 XxX

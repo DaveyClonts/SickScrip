@@ -1,17 +1,17 @@
 HollaAtYaBoyz "Enter a string:" fr
 letta s = CheckIt() fr
 letta left = 0 fr
-letta right = len(s) MINUZ 1 fr
+letta right = len(s) MINUZ 1 fr fr
 letta isPalin = Yep fr
 LoopyFR (left < right AnD isPalin) xXx
     dat (charAt(s, left) != charAt(s, right)) xXx
         isPalin = Nope fr
     XxX
     left = left PLUZ 1 fr
-    right = right MINUZ 1 fr
+    right = right MINUZ 1 no cap
 XxX
 dat (isPalin) xXx
     HollaAtYaBoyz "Yes, palindrome" fr
 XxX ELSE xXx
-    HollaAtYaBoyz "No, not a palindrome" fr
+    HollaAtYaBoyz "No, not a palindrome" no cap
 XxX

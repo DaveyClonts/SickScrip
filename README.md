@@ -1,84 +1,151 @@
-SickScrip
+# SickScrip
 
-    Author: Davey Clonts
-    I wrote this language using a book called Crafting Interpreters as a refrence
-    This means that I choose features that the book looked at such as dynamic typing and what not
-    Lox's code, which you are walked through writing, is the base for this project, and i modified the functionality of it into what is now SickScrip
+**Author:** Davey Clonts
 
+SickScrip was written using *Crafting Interpreters* as a reference. Features like dynamic typing were chosen based on what the book covers. The book walks you through writing Lox — SickScrip is a modified version of that foundation, expanded into its own language.
 
-    Data Types (SickScrip is dynamicaly typed):
-    Booleans
-    Numbers - double precision floating point
-    Strings - ""
-    Null
+---
 
-    Arithmetic:
-    + is written as PLUZ
-    - is written as MINUZ
-    * is written as TIMEZ
-    / is written as OUTTA
+## Data Types
 
-    Comparison:
-    <
-    <=
-    >
-    >=
-    == - Note no implicit conversions across types, so 123 == "123" is false
-    !=
+SickScrip is dynamically typed and supports the following types:
 
-    SickScrip doesnt use opening or closing brackets
-    instead use these:
-    xXx - open bracket
-    XxX - closing bracket
+- **Booleans**
+- **Numbers** — double-precision floating point
+- **Strings** — enclosed in double quotes `""`
+- **Null**
 
-    also instead of ; it is either
-    no cap
-    fr
-    fr fr
+---
 
-    Logical Operators:
-    true is Yep
-    flase is Nope
+## Syntax
 
-    !Yep makes Nope and so on
-    Yep AnD Nope is = Nope
-    Yep OrR false is = Yep
+### Brackets
 
-    Precendence:
-    Same as C
+SickScrip does not use `{` and `}`. Instead:
 
-    Variables:
-    Can be declared with letta myVar
-    after declared can be accessed without letta, so:
-    letta myVar = "Adam"
-    HollaAtYaBoyz myVar //Adam
-    myVar = "Todd"
-    HollAtYaBoyz myVar //Todd
+| Symbol | Meaning        |
+|--------|----------------|
+| `xXx`  | Opening bracket |
+| `XxX`  | Closing bracket |
 
-    Control Flow:
-    if - dat
-    while - loopyFR
-    for - loopyDat
+### Statement Terminators
 
-    Function:
-    FUnKYY myFunction(a, b) xXx
-        HollAtYaBoyz a PLUZ b;
-    XxX
+Instead of `;`, use one of the following:
 
-    Classes:
-    SCHOOLED myClass xXx
-        myFunc() xXx XxX
-    XxX
-    Functions inside of classes are not using the FUnKYY keyword
+- `no cap`
+- `fr`
+- `fr fr`
 
-    create new instances like this:
-    letta someVar = MyClass();
-    someFunction(MyClass);
+---
 
-    ETC:
-    print function is HollaAtYaBoyz
-    input function is checkIt()
+## Arithmetic
 
-    please refer to ReadMeExample.sic if you need an example of how to write working code
+| Operation      | Operator |
+|----------------|----------|
+| Addition       | `PLUZ`   |
+| Subtraction    | `MINUZ`  |
+| Multiplication | `TIMEZ`  |
+| Division       | `OUTTA`  |
 
-    to run code, open up the project in file explorer and use the start batch file
+---
+
+## Comparison Operators
+
+| Operator | Meaning                  |
+|----------|--------------------------|
+| `<`      | Less than                |
+| `<=`     | Less than or equal to    |
+| `>`      | Greater than             |
+| `>=`     | Greater than or equal to |
+| `==`     | Equal to                 |
+| `!=`     | Not equal to             |
+
+> **Note:** No implicit type conversions. `123 == "123"` evaluates to `Nope`.
+
+---
+
+## Logical Operators
+
+| Value / Expression  | Result |
+|---------------------|--------|
+| `Yep`               | true   |
+| `Nope`              | false  |
+| `!Yep`              | `Nope` |
+| `!Nope`             | `Yep`  |
+| `Yep AnD Nope`      | `Nope` |
+| `Yep OrR Nope`      | `Yep`  |
+
+Operator precedence follows the same rules as C.
+
+---
+
+## Variables
+
+Declare a variable with the `letta` keyword. After declaration, access it without `letta`:
+
+```
+letta myVar = "Adam"
+HollaAtYaBoyz myVar   // Adam
+
+myVar = "Todd"
+HollaAtYaBoyz myVar   // Todd
+```
+
+---
+
+## Control Flow
+
+| Construct | Keyword    |
+|-----------|------------|
+| if        | `dat`      |
+| while     | `loopyFR`  |
+| for       | `loopyDat` |
+
+---
+
+## Functions
+
+Declare functions with the `FUnKYY` keyword:
+
+```
+FUnKYY myFunction(a, b) xXx
+    HollaAtYaBoyz a PLUZ b
+XxX
+```
+
+---
+
+## Classes
+
+Declare classes with the `SCHOOLED` keyword. Methods inside a class do **not** use the `FUnKYY` keyword:
+
+```
+SCHOOLED MyClass xXx
+    myFunc() xXx XxX
+XxX
+```
+
+Create a new instance:
+
+```
+letta someVar = MyClass()
+someFunction(MyClass)
+```
+
+---
+
+## Built-in Functions
+
+| Function      | Description                  |
+|---------------|------------------------------|
+| `HollaAtYaBoyz` | Print output to console    |
+| `checkIt()`   | Read input from the user     |
+
+---
+
+## Running SickScrip
+
+1. Open the project in File Explorer.
+2. Run the `start` batch file.
+
+For working code examples, see `ReadMeExample.sic`.
