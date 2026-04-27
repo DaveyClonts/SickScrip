@@ -78,11 +78,11 @@ public class Scanner {
                 addToken(LEFT_PAREN);
             case ')' ->
                 addToken(RIGHT_PAREN);
-case ',' ->
+            case ',' ->
                 addToken(COMMA);
             case '.' ->
                 addToken(DOT);
-case '"' ->
+            case '"' ->
                 string();
             // Matches 1-3 characters.
             case '!' ->
@@ -95,10 +95,10 @@ case '"' ->
                 addToken(match('=') //
                         ? GREATER_EQUAL //
                         : match('>') //
-                        ? match('>') //
-                        ? TRIPLE_SHIFT //
-                        : SHIFT_RIGHT//
-                        : GREATER //
+                                ? match('>') //
+                                        ? TRIPLE_SHIFT //
+                                        : SHIFT_RIGHT//
+                                : GREATER //
                 );
             // Matches single line comments or division.
             case '/' -> {
@@ -141,8 +141,10 @@ case '"' ->
 
         if (text.equals("fr")) {
             int saved = current;
-            while (current < source.length() && (source.charAt(current) == ' ' || source.charAt(current) == '\t')) current++;
-            if (source.startsWith("fr", current) && (current + 2 >= source.length() || !isAlphaNumeric(source.charAt(current + 2)))) {
+            while (current < source.length() && (source.charAt(current) == ' ' || source.charAt(current) == '\t'))
+                current++;
+            if (source.startsWith("fr", current)
+                    && (current + 2 >= source.length() || !isAlphaNumeric(source.charAt(current + 2)))) {
                 current += 2;
             } else {
                 current = saved;
@@ -153,8 +155,10 @@ case '"' ->
 
         if (text.equals("no")) {
             int saved = current;
-            while (current < source.length() && (source.charAt(current) == ' ' || source.charAt(current) == '\t')) current++;
-            if (source.startsWith("cap", current) && (current + 3 >= source.length() || !isAlphaNumeric(source.charAt(current + 3)))) {
+            while (current < source.length() && (source.charAt(current) == ' ' || source.charAt(current) == '\t'))
+                current++;
+            if (source.startsWith("cap", current)
+                    && (current + 3 >= source.length() || !isAlphaNumeric(source.charAt(current + 3)))) {
                 current += 3;
                 addToken(SEMICOLON);
                 return;
@@ -234,7 +238,7 @@ case '"' ->
 
     /**
      * @return the current character without advancing the scanner to the next
-     * character.
+     *         character.
      */
     private char peek() {
         // \0 is the null character.
