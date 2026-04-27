@@ -1,0 +1,5 @@
+HollaAtYaBoyz "Enter first number:" fr
+letta a = toNum(CheckIt()) fr
+HollaAtYaBoyz "Enter second number:" fr
+letta b = toNum(CheckIt()) fr
+HollaAtYaBoyz a TIMEZ b fr

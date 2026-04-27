@@ -1,0 +1,9 @@
+HollaAtYaBoyz "Enter a string:" fr
+letta s = CheckIt() fr
+letta result = "" fr
+letta i = len(s) MINUZ 1 fr
+LoopyFR (i >= 0) xXx
+    result = result PLUZ charAt(s, i) fr
+    i = i MINUZ 1 fr
+XxX
+HollaAtYaBoyz result fr

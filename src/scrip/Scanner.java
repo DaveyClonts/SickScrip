@@ -1,0 +1,286 @@
+package scrip;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static scrip.TokenType.*;
+
+public class Scanner {
+
+    private final String source;
+    private final List<Token> tokens = new ArrayList<>();
+
+    /**
+     * Location of the <b>first</b> character of the lexeme being scanned.
+     */
+    private int start = 0;
+
+    /**
+     * Location of the <b>current</b> character being scanned.
+     */
+    private int current = 0;
+
+    private int line = 1;
+
+    /**
+     * Reserved keywords in Sic.
+     */
+    private static final Map<String, TokenType> keywords;
+
+    static {
+        // Initialised when the class is loaded into memory.
+        keywords = new HashMap<>();
+        keywords.put("AnD", AND);
+        keywords.put("SCHOOLED", CLASS);
+        keywords.put("ELSE", ELSE);
+        keywords.put("Nope", FALSE);
+        keywords.put("LoopyDat", FOR);
+        keywords.put("FUnKYY", FUN);
+        keywords.put("dat", IF);
+        keywords.put("Nuttin", NIL);
+        keywords.put("OrR", OR);
+        keywords.put("HollaAtYaBoyz", PRINT);
+        keywords.put("GIMME", RETURN);
+        keywords.put("Suppa", SUPER);
+        keywords.put("dis", THIS);
+        keywords.put("Yep", TRUE);
+        keywords.put("letta", VAR);
+        keywords.put("LoopyFR", WHILE);
+        keywords.put("xXx", LEFT_BRACE);
+        keywords.put("XxX", RIGHT_BRACE);
+        keywords.put("PLUZ", PLUS);
+        keywords.put("MINUZ", MINUS);
+        keywords.put("TIMEZ", STAR);
+        keywords.put("OUTTA", SLASH);
+    }
+
+    public Scanner(String source) {
+        this.source = source;
+    }
+
+    List<Token> scanTokens() {
+        while (!isAtEnd()) {
+            start = current;
+            scanToken();
+        }
+
+        tokens.add(new Token(EOF, "", null, line));
+        return tokens;
+    }
+
+    private void scanToken() {
+        // parse single character lexemes first.
+        char c = advance();
+        switch (c) {
+            case '(' ->
+                addToken(LEFT_PAREN);
+            case ')' ->
+                addToken(RIGHT_PAREN);
+case ',' ->
+                addToken(COMMA);
+            case '.' ->
+                addToken(DOT);
+case '"' ->
+                string();
+            // Matches 1-3 characters.
+            case '!' ->
+                addToken(match('=') ? BANG_EQUAL : BANG);
+            case '=' ->
+                addToken(match('=') ? EQUAL_EQUAL : EQUAL);
+            case '<' ->
+                addToken(match('=') ? LESS_EQUAL : match('<') ? SHIFT_LEFT : LESS);
+            case '>' ->
+                addToken(match('=') //
+                        ? GREATER_EQUAL //
+                        : match('>') //
+                        ? match('>') //
+                        ? TRIPLE_SHIFT //
+                        : SHIFT_RIGHT//
+                        : GREATER //
+                );
+            // Matches single line comments or division.
+            case '/' -> {
+                if (match('/')) {
+                    // It's a comment, consume all characters until the end of the line.
+                    while (peek() != '\n' && !isAtEnd()) {
+                        advance();
+                    }
+                } else {
+                    Sic.error(line, "Unexpected character.");
+                }
+            }
+            // Whitespace
+            case ' ', '\r', '\t' -> {
+            }
+            // New line
+            case '\n' ->
+                advanceLine();
+            default -> {
+                if (isDigit(c)) {
+                    number();
+                } else if (isAlpha(c)) {
+                    identifier();
+                } else {
+                    Sic.error(line, "Unexpected character.");
+                }
+            }
+        }
+    }
+
+    /**
+     * Consumes an identifier or a keyword
+     */
+    private void identifier() {
+        while (isAlphaNumeric(peek())) {
+            advance();
+        }
+
+        String text = source.substring(start, current);
+
+        if (text.equals("fr")) {
+            int saved = current;
+            while (current < source.length() && (source.charAt(current) == ' ' || source.charAt(current) == '\t')) current++;
+            if (source.startsWith("fr", current) && (current + 2 >= source.length() || !isAlphaNumeric(source.charAt(current + 2)))) {
+                current += 2;
+            } else {
+                current = saved;
+            }
+            addToken(SEMICOLON);
+            return;
+        }
+
+        if (text.equals("no")) {
+            int saved = current;
+            while (current < source.length() && (source.charAt(current) == ' ' || source.charAt(current) == '\t')) current++;
+            if (source.startsWith("cap", current) && (current + 3 >= source.length() || !isAlphaNumeric(source.charAt(current + 3)))) {
+                current += 3;
+                addToken(SEMICOLON);
+                return;
+            }
+            current = saved;
+        }
+
+        TokenType type = keywords.get(text);
+        // The scanned content doesn't form a keyword.
+        if (type == null) {
+            type = IDENTIFIER;
+        }
+        addToken(type);
+    }
+
+    /**
+     * Consumes an integer or decimal literal. E.g., 1234, 12.34
+     */
+    private void number() {
+        while (isDigit(peek())) {
+            advance();
+        }
+
+        // Look for a fractional part followed by at least one digit.
+        if (peek() == '.' && isDigit(peekNext())) {
+            // Consume the "."
+            advance();
+
+            while (isDigit(peek())) {
+                advance();
+            }
+        }
+
+        addToken(NUMBER, Double.parseDouble(source.substring(start, current)));
+    }
+
+    /**
+     * Scans the contents of a string literal. Strings are represented via ""
+     */
+    private void string() {
+        while (peek() != '"' && !isAtEnd()) {
+            if (peek() == '\n') {
+                advanceLine();
+            }
+            advance();
+        }
+
+        if (isAtEnd()) {
+            Sic.error(line, "Unterminated string.");
+            return;
+        }
+
+        // The closing ".
+        advance();
+
+        // Exclude the surrounding quotes from the token
+        String value = source.substring(start + 1, current - 1);
+        addToken(STRING, value);
+    }
+
+    private void advanceLine() {
+        line++;
+    }
+
+    private boolean match(char expected) {
+        // There is no character at `current`.
+        if (isAtEnd()) {
+            return false;
+        }
+        // The current character is not the one we're looking for.
+        if (source.charAt(current) != expected) {
+            return false;
+        }
+        current++;
+        return true;
+    }
+
+    /**
+     * @return the current character without advancing the scanner to the next
+     * character.
+     */
+    private char peek() {
+        // \0 is the null character.
+        if (isAtEnd()) {
+            return '\0';
+        }
+        return source.charAt(current);
+    }
+
+    /**
+     * @return the next character without advancing the scanner.
+     */
+    private char peekNext() {
+        if (current + 1 >= source.length()) {
+            return '\0';
+        }
+        return source.charAt(current + 1);
+    }
+
+    private boolean isAlpha(char c) {
+        return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
+    }
+
+    private boolean isAlphaNumeric(char c) {
+        return isAlpha(c) || isDigit(c);
+    }
+
+    private boolean isDigit(char c) {
+        return c >= '0' && c <= '9';
+    }
+
+    private boolean isAtEnd() {
+        return current >= source.length();
+    }
+
+    private char advance() {
+        // gets the character at current then increments current.
+        return source.charAt(current++);
+    }
+
+    private void addToken(TokenType type) {
+        addToken(type, null);
+    }
+
+    private void addToken(TokenType type, Object literal) {
+        String text = source.substring(start, current);
+        tokens.add(new Token(type, text, literal, line));
+    }
+}

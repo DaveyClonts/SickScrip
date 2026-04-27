@@ -1,0 +1,11 @@
+HollaAtYaBoyz "Enter a character to repeat:" fr
+letta ch = charAt(CheckIt(), 0) fr
+HollaAtYaBoyz "Enter how many times:" fr
+letta count = toNum(CheckIt()) fr
+letta result = "" fr
+letta i = 0 fr
+LoopyFR (i < count) xXx
+    result = result PLUZ ch fr
+    i = i PLUZ 1 fr
+XxX
+HollaAtYaBoyz result fr

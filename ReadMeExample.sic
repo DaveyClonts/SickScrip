@@ -1,0 +1,80 @@
+// --- Arithmetic ---
+letta a = 10 PLUZ 5 fr
+letta b = 10 MINUZ 3 no cap
+letta c = 4 TIMEZ 5 fr fr
+letta d = 20 OUTTA 4 fr
+HollaAtYaBoyz a fr
+HollaAtYaBoyz b no cap
+HollaAtYaBoyz c fr fr
+HollaAtYaBoyz d fr
+
+// --- Booleans and nil ---
+letta t = Yep fr
+letta f = Nope no cap
+letta n = Nuttin fr fr
+HollaAtYaBoyz t fr
+HollaAtYaBoyz f no cap
+HollaAtYaBoyz n fr
+
+// --- AnD / OrR ---
+HollaAtYaBoyz Yep AnD Yep fr
+HollaAtYaBoyz Yep AnD Nope fr
+HollaAtYaBoyz Nope OrR Yep fr
+HollaAtYaBoyz Nope OrR Nope fr
+
+// --- dat / ELSE blocks ---
+letta x = 5 fr
+dat (x > 3) xXx
+    HollaAtYaBoyz "dat branch works" fr
+XxX ELSE xXx
+    HollaAtYaBoyz "ELSE branch works" fr
+XxX
+
+// --- LoopyFR (while) ---
+letta i = 0 fr
+LoopyFR (i < 3) xXx
+    HollaAtYaBoyz i fr
+    i = i PLUZ 1 fr
+XxX
+
+// --- LoopyDat (for) ---
+LoopyDat (letta j = 0 fr j < 3 fr j = j PLUZ 1) xXx
+    HollaAtYaBoyz j fr
+XxX
+
+// --- FUnKYY / GIMME ---
+FUnKYY add(x, y) xXx
+    GIMME x PLUZ y fr
+XxX
+
+HollaAtYaBoyz add(3, 4) fr
+
+// --- SCHOOLED / dis / Suppa ---
+SCHOOLED Animal xXx
+    FUnKYY init(name) xXx
+        dis.name = name fr
+    XxX
+
+    FUnKYY speak() xXx
+        HollaAtYaBoyz dis.name fr
+    XxX
+XxX
+
+SCHOOLED Dog < Animal xXx
+    FUnKYY init(name) xXx
+        Suppa.init(name) fr
+    XxX
+
+    FUnKYY speak() xXx
+        HollaAtYaBoyz "Woof from" fr
+        Suppa.speak() fr
+    XxX
+XxX
+
+letta dog = Dog("Rex") fr
+dog.speak() fr
+
+// --- CheckIt (user input) ---
+HollaAtYaBoyz "What is your name?" fr
+letta name = CheckIt() fr
+HollaAtYaBoyz "Hello, " PLUZ name fr

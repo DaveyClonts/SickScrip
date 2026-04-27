@@ -1,0 +1,3 @@
+HollaAtYaBoyz "Enter a line:" fr
+letta line = CheckIt() fr
+HollaAtYaBoyz line fr
